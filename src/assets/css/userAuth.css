@@ -1,0 +1,20 @@
+.navbar {
+    background-color: rgb(22, 22, 87);
+    color: white;
+    padding: 20px; 
+    margin-bottom: 0px;
+}
+
+.center-container {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 85vh; 
+}
+.center-content {
+    text-align: center;
+    width: 400px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+}
