@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
-import 'bootstrap/dist/css/bootstrap.css';
 import '../../../assets/css/userAuth.css'
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import '../../../assets/css/homepage.css'
 
 export default class UserLogin extends Component {
   render() {
     return (
     <div>
-        <div class="navbar">
-        <h5>UTA E-Pharmacy</h5>
-        </div>
+        <Navbar expand="lg">
+        <Container fluid>
+        <Navbar.Brand href="#" style={{color: 'white'}}>UTA E-Pharmacy</Navbar.Brand>
+      </Container>
+    </Navbar>
       <div className='center-container'>
         <form className='center-content'>
       <div class="form-outline mb-4">
