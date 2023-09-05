@@ -1,6 +1,13 @@
 const express = require('express')
-const firebaseConfig = require('../src/firebase')
-const app = express()
+const cors = require('cors');
+const app = express();
+const { getDatabase } = require('firebase-admin/database');
+
+app.use(express.json(),cors({
+  origin: 'http://localhost:3000',
+  methods: 'GET,POST,PUT,DELETE', 
+  optionsSuccessStatus: 204,
+}));
 
 app.listen(4000, () =>{
     console.log('listening!')
@@ -15,13 +22,27 @@ admin.initializeApp({
   databaseURL: "https://e-pharmacy-e4d2e-default-rtdb.firebaseio.com"
 });
 
-// const db = admin.database();
-// const ref = db.ref('users'); // Replace with the path you want to query
+app.post('/register', async (req,res) =>{
+  try{
+    const {name,email,password} = req.body;
+    const user = admin.auth().createUser({
+      email,password
+    });
+    const db = getDatabase();
+    const ref = db.ref('/');
+    const usersRef = ref.child('users');
+    const newUserRef = usersRef.push();
+    newUserRef.set({
+      email: email,
+      name: name,
+    });
+    
+    res.json(user);
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).json({error: "Failed"});
+  }
+});
 
-// ref.once('value', (snapshot) => {
-//   const data = snapshot.val();
-//   console.log(data);
-// })
-// .catch((error) => {
-//   console.error('Error fetching data:', error);
-// });
+
