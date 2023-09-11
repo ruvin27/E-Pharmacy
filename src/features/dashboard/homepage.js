@@ -1,5 +1,5 @@
 import React from 'react';
-import HomepageNav from './navbar';
+import HomepageNav from '../navbar';
 import { useAuth } from '../authentication/AuthContext';
 
 function Homepage() {
@@ -8,7 +8,6 @@ function Homepage() {
   return (
     <div>
       <HomepageNav />
-      {/* <h3>{user.email}</h3> */}
     </div>
   );
 }
