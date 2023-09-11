@@ -23,7 +23,7 @@ function HomepageNav() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-              <Nav.Link href="/" style={{ color: 'white' }}>Home</Nav.Link>
+              <Nav.Link href="/cart" style={{ color: 'white' }}>Cart</Nav.Link>
               {user ? 
               <Nav.Link href="/" onClick={HandleLogout} style={{ color: 'white' }}>Logout</Nav.Link> :
               <Nav.Link href="/login" style={{ color: 'white' }}>Login/Register</Nav.Link> 

@@ -44,7 +44,7 @@ function UserRegister() {
           alert('Registration failed. Please try again.');
         }
       } catch (error) {
-        console.error('Error:', error);
+        alert('Error:', error);
       }
     };
   
