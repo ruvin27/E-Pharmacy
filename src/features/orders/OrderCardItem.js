@@ -8,8 +8,8 @@ const OrderCardItem = ({ product }) => {
           <Card className='card-item'>
             <Card.Body>
               <Card.Title>{productName}</Card.Title>
-              <Card.Text>{productDescription}</Card.Text>
-              <Card.Text>Quantity: {quantity}</Card.Text>
+              <Card.Text className='mb-1'>{productDescription}</Card.Text>
+              <Card.Text  className='mb-2'>Quantity: {quantity}</Card.Text>
               <Button variant="danger">Delete</Button>
             </Card.Body>
           </Card>
