@@ -9,7 +9,7 @@ const OrderCard = ({ order }) => {
             <Card.Body>
               <Card.Title>Order#: {orderID}</Card.Title>
               <Card.Text className='mb-1'>Date: {date}</Card.Text>
-              <Card.Text className='mb-1'>Order Status: {status}</Card.Text>
+              <Card.Text className='mb-1'>Order Status: <b>{status}</b></Card.Text>
               <Card.Text className='mb-1'>Order Type: {orderType}</Card.Text>
               <Card.Text  className='mb-1'>Items: {totalItems}</Card.Text>
               <Card.Text  className='mb-2'><b>Total Cost: {totalCost}</b></Card.Text>

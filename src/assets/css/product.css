@@ -1,5 +1,5 @@
 
-.container{
+.product-container{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -9,7 +9,7 @@
     
     }
 
-.container > div{
+.product-container > div{
     /* border: 1px solid black; */
     height: 65vh;
     width: 40vh;

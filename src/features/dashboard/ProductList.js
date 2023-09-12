@@ -33,7 +33,7 @@ function ProductList() {
  
 
   return (
-    <Container>
+    <Container className="product-container">
       <Product prod={productDetails} />
    </Container>
   );
