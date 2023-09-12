@@ -38,7 +38,6 @@ const Cart = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission (e.g., send data to a server)
     console.log("Submitted:", address);
   };
   const cartItems = [
