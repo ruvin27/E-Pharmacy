@@ -1,6 +1,7 @@
 import React from 'react';
 import HomepageNav from './navbar';
 import { useAuth } from '../authentication/AuthContext';
+import ProductList from './ProductList';
 
 function Homepage() {
   const { user } =  useAuth();
@@ -8,6 +9,7 @@ function Homepage() {
   return (
     <div>
       <HomepageNav />
+      <ProductList/>
       {/* <h3>{user.email}</h3> */}
     </div>
   );

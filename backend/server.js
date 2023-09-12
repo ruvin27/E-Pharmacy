@@ -38,6 +38,7 @@ app.post('/register', async (req,res) =>{
     });
     
     res.json(user);
+    
   }
   catch (error) {
     console.error(error);

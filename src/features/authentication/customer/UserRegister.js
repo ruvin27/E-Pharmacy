@@ -23,7 +23,10 @@ function UserRegister() {
         ...formData,
         [name]: value,
       });
+     
     };
+    console.log(formData);
+ 
   
     const handleRegistration = async () => {
       try {
