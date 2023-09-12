@@ -24,6 +24,7 @@ function HomepageNav() {
             navbarScroll
           >
               <Nav.Link href="/cart" style={{ color: 'white' }}>Cart</Nav.Link>
+              <Nav.Link href="/orders" style={{ color: 'white' }}>Orders</Nav.Link>
               {user ? 
               <Nav.Link href="/" onClick={HandleLogout} style={{ color: 'white' }}>Logout</Nav.Link> :
               <Nav.Link href="/login" style={{ color: 'white' }}>Login/Register</Nav.Link> 
