@@ -1,11 +1,6 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import '../../assets/css/homepage.css';
-import { useAuth } from '../authentication/AuthContext';
+import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
+import { useAuth } from './authentication/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function HomepageNav() {
@@ -28,7 +23,7 @@ function HomepageNav() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-              <Nav.Link href="/" style={{ color: 'white' }}>Home</Nav.Link>
+              <Nav.Link href="/cart" style={{ color: 'white' }}>Cart</Nav.Link>
               {user ? 
               <Nav.Link href="/" onClick={HandleLogout} style={{ color: 'white' }}>Logout</Nav.Link> :
               <Nav.Link href="/login" style={{ color: 'white' }}>Login/Register</Nav.Link> 
