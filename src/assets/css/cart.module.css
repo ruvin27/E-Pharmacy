@@ -5,12 +5,12 @@
     padding: 10px;
 }
 
-.card-item{
+.cardItem{
     margin-bottom: 20px;
     width: 100%;
 }
 
-.checkout-btn{
+.checkoutbtn{
     width: 100%;
 }
 
@@ -19,11 +19,11 @@
 
 }
 
-.empty-container{
+.empty_container{
     text-align: center;
 }
 
-.empty-container img{
+.empty_container img{
     width: 300px;
     margin-bottom: 20px;
 }

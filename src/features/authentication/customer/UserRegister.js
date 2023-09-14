@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../assets/css/userAuth.css'
 import { Navbar, Container } from 'react-bootstrap';
-import '../../../assets/css/homepage.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 

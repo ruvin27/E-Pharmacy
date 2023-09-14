@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import { useAuth } from "../authentication/AuthContext";
 import HomepageNav from "../navbar";
-import "../../assets/css/cart.css";
+import CartBody from '../../assets/css/cart.module.css';
 import {
   Button,
   Card,
@@ -13,7 +13,7 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
-import OrderCardItem from "./OrderCardItem";
+import CartItem from "./CartItem";
 import cart from "../../assets/images/cart.jpg";
 
 const Cart = () => {
@@ -76,19 +76,19 @@ const Cart = () => {
   return (
     <div>
       <HomepageNav />
-      <div className="container">
+      <div className={CartBody.container}>
         <Container>
           {!cartItems ? (
-            <div className="empty-container">
+            <div className={CartBody.empty_container}>
               <img src={cart} alt="Empty Cart"></img>
               <h2>Your Shopping cart is empty!</h2>
             </div>
           ) : (
             <Row>
-              <h3 className="header">My Cart:</h3>
+              <h3 className={CartBody.header}>My Cart:</h3>
               <Col xs={12} lg={8}>
                 {cartItems.map((item) => (
-                  <OrderCardItem key={item.id} product={item} />
+                  <CartItem key={item.id} product={item} />
                 ))}
               </Col>
               <Col>
@@ -188,8 +188,7 @@ const Cart = () => {
                           </Form.Group>
                           <Button
                             variant="primary"
-                            className="checkout-btn mb-3"
-                          >
+                            className={CartBody.checkoutbtn}>
                             Checkout
                           </Button>
                         </Form>
@@ -221,7 +220,7 @@ const Cart = () => {
                           </Form.Group>
                             <Button
                               variant="primary"
-                              className="checkout-btn mb-3"
+                              className={CartBody.checkoutbtn}
                             >
                               Checkout
                             </Button>

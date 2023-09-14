@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 // import { useAuth } from "../authentication/AuthContext";
 import HomepageNav from "../navbar";
-import "../../assets/css/cart.css";
+import OrdersCSS from '../../assets/css/cart.module.css';
 import {
   Row,
   Col,
@@ -60,16 +60,16 @@ const Orders = () => {
   return (
     <div>
       <HomepageNav />
-      <div className="container">
+      <div className={OrdersCSS.container}>
         <Container>
-          {!orderItems ? (
-            <div className="empty-container">
+          {orderItems ? (
+            <div className={OrdersCSS.empty_container}>
               <img src={cart} alt="Empty Cart"></img>
               <h2>No Past Orders!</h2>
             </div>
           ) : (
             <Row>
-              <h3 className="header">My Orders:</h3>
+              <h3 className={OrdersCSS.header}>My Orders:</h3>
               <Col>
                 {orderItems.map((item) => (
                   <OrderCard key={item.orderID} order={item} />

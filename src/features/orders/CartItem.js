@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card, Button } from 'react-bootstrap';
-import '../../assets/css/cart.css';
+import CartItemCSS from '../../assets/css/cart.module.css';
 
-const OrderCardItem = ({ product }) => {
+const CartItem = ({ product }) => {
     const { productName, productDescription, quantity } = product;
     return (
-          <Card className='card-item'>
+          <Card className={CartItemCSS.cardItem}>
             <Card.Body>
               <Card.Title>{productName}</Card.Title>
               <Card.Text className='mb-1'>{productDescription}</Card.Text>
@@ -17,4 +17,4 @@ const OrderCardItem = ({ product }) => {
       );
 };
 
-export default OrderCardItem;
+export default CartItem;

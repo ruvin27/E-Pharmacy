@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card } from 'react-bootstrap';
-import '../../assets/css/cart.css';
+import OrderItemCSS from '../../assets/css/cart.module.css';
 
 const OrderCard = ({ order }) => {
     const { orderID, date, totalItems, status, totalCost, orderType } = order;
     return (
-          <Card className='card-item'>
+          <Card className={OrderItemCSS.cardItem}>
             <Card.Body>
               <Card.Title>Order#: {orderID}</Card.Title>
               <Card.Text className='mb-1'>Date: {date}</Card.Text>
