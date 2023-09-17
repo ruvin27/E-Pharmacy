@@ -7,7 +7,7 @@ function Product(props) {
   return props.prod.map((item) => {
     const { id, name, description, price, image, count } = item;
     return (
-      <div style={{width: "18rem"}}>
+      <div key={id} style={{width: "18rem"}}>
       <Row>
         <Col >
         <Card style={{ width: "18rem"}}>

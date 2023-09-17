@@ -6,9 +6,11 @@ import Homepage from './features/dashboard/homepage';
 import { useAuth } from './features/authentication/AuthContext';
 import Cart from './features/orders/Cart';
 import Orders from './features/orders/Orders';
+import Profile from "./features/Profile";
 
 const App = () => {
   const { user } = useAuth();
+  console.log(user);
 
   return (
     <Router>
@@ -18,6 +20,7 @@ const App = () => {
         <Route path="/register" element={!user ? <UserRegister/> : <Navigate to="/" />}  />
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/profile" element ={<Profile/>}/>
       </Routes>
     </Router>
   );

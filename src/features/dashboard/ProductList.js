@@ -1,6 +1,6 @@
 import Product from "./Product";
 import { Container } from 'react-bootstrap';
-import "../../assets/css/product.css";
+import productClass from "../../assets/css/product.module.css";
 import { useState, useEffect } from "react";
 
 
@@ -33,8 +33,8 @@ function ProductList() {
  
 
   return (
-    <Container className="product-container">
-      <Product prod={productDetails} />
+    <Container className={productClass.product}>
+      <Product key = {productDetails.id} prod={productDetails} />
    </Container>
   );
 }

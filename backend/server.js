@@ -24,9 +24,15 @@ admin.initializeApp({
 
 app.post('/register', async (req,res) =>{
   try{
-    const {name,email,password} = req.body;
+    const {email,password,name,address,phone} = req.body;
+    console.log('Received email:', email);
+    console.log('Received password:', password);
+    console.log('Received password:', name);
+    
     const user = admin.auth().createUser({
-      email,password
+      email,
+      password,
+      displayName:name
     });
     const db = getDatabase();
     const ref = db.ref('/');
@@ -35,6 +41,8 @@ app.post('/register', async (req,res) =>{
     newUserRef.set({
       email: email,
       name: name,
+      address: address,
+      phone: phone
     });
     
     res.json(user);

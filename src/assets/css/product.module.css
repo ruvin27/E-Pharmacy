@@ -1,5 +1,5 @@
 
-.product-container{
+.product{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -9,7 +9,7 @@
     
     }
 
-.product-container > div{
+.product > div{
     /* border: 1px solid black; */
     height: 65vh;
     width: 40vh;
@@ -18,15 +18,15 @@
     box-shadow: 4px 4px 10px rgba(185, 27, 27, 0.2);
 }
 
-.flex-item {
+/* .flex-item {
     
-    padding: 10px;
+    padding: 10px; */
     /* border: 1px solid #ddd; */
-    margin: 5px;
+    /* margin: 5px;
     width: auto;
     
-  }
-  .btns {
+  } */
+  /* .btns {
     padding: 2% 5%; 
     margin: 1%;
     margin-top: 4%;
@@ -52,5 +52,5 @@
   img{
     width: 100%;
     height: 100%;
-  }
+  } */
 

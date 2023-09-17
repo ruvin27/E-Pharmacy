@@ -64,7 +64,7 @@ const Orders = () => {
         <Container>
           {!orderItems ? (
             <div className={OrdersCSS.empty_container}>
-              <img src={cart} alt="Empty Cart"></img>
+              <img src={cart} alt="Empty Cart" style={{width:'300px', height:'300px'}}></img>
               <h2>No Past Orders!</h2>
             </div>
           ) : (
