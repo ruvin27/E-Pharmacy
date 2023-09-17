@@ -4,13 +4,23 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
+
+    // const[user, setUser] = useState({
+    //   email: '',
+    //   password:'',
+    //   name:'',
+    //   address: '',
+    //   phone: ''
+    // });
     
     const login = (userData) => {
         setUser(userData);
     }
 
     const logout = () => {
+      console.log(user);
         setUser(null);
+        console.log(user);
     }
 
     useEffect(() => {
