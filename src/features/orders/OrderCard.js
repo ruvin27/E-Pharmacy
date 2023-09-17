@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from 'react-bootstrap';
-import OrderItemCSS from '../../assets/css/cart.module.css';
+import OrderItemCSS from '../../assets/css/order.module.css';
 
 const OrderCard = ({ order }) => {
     const { orderID, date, totalItems, status, totalCost, orderType } = order;
