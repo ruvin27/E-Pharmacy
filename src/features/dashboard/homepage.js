@@ -6,14 +6,11 @@ import ProductList from './ProductList';
 
 function Homepage() {
   const { user } =  useAuth();
-  console.log(user);
   return (
     <div>
       <HomepageNav />
 
       <ProductList/>
-      {/* <h3>{user.email}</h3> */}
-
     </div>
   );
 }

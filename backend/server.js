@@ -25,20 +25,17 @@ admin.initializeApp({
 app.post('/register', async (req,res) =>{
   try{
     const {email,password,name,address,phone} = req.body;
-    console.log('Received email:', email);
-    console.log('Received password:', password);
-    console.log('Received password:', name);
     
-    const user = admin.auth().createUser({
+    const user = await admin.auth().createUser({
       email,
       password,
       displayName:name
     });
+    console.log(user.uid);
     const db = getDatabase();
     const ref = db.ref('/');
-    const usersRef = ref.child('users');
-    const newUserRef = usersRef.push();
-    newUserRef.set({
+    const usersRef = ref.child('users/' + user.uid);
+    usersRef.set({
       email: email,
       name: name,
       address: address,

@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 function HomepageNav() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  console.log(user);
   const HandleLogout = () => {
     logout();
     navigate('/');

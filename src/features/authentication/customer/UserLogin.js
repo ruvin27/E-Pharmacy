@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import "../../../assets/css/userAuth.css";
 import { Navbar, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,7 +13,6 @@ function UserLogin() {
     email: '',
     password: '',
   });
-    const [userDetails, setUserDetails] = useState(null);
   
     const navigate = useNavigate();
     
@@ -30,41 +29,27 @@ function UserLogin() {
     const handleLogin = async () => {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password );
-      //  const userId = userCredential.user.uid;
-      const userName = userCredential.user.displayName;
-      const userEmail = userCredential.user.email;
-      // console.log(userName);
-      // console.log(userEmail);
-        const db = getDatabase();
-        const userRef = ref(db, 'users');
-        const snapshot = await get(userRef);
-        let foundUser = null;
+       const userId = userCredential.user.uid;
 
-        snapshot.forEach((childSnapshot) => {
-          const user = childSnapshot.val();
-          if (user.email === userEmail && user.name === userName) {
-             foundUser = user;
-            // console.log(foundUser);
-          }
-        });
-    
-        if (foundUser) {
-          setUserDetails(foundUser);
-          await login(foundUser);
+        const db = getDatabase();
+        const userRef = ref(db, `users/${userId}`);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+          console.log('User data:', userData);
+          await login(userData);
           navigate("/");
         } else {
           alert("User not found.");
         }
+
       } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorCode + ': ' + errorMessage);
       }
     };
-
-    useEffect(() => {
-      console.log(userDetails)
-    },[userDetails])
 
   return (
     <div>
@@ -76,12 +61,12 @@ function UserLogin() {
       <div className='center-container'>
         <form className='center-content'>
           <div className="form-outline mb-4">
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="form-control" />
+            <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="form-control" required/>
             <label className="form-label" htmlFor="form2Example1">Email address</label>
           </div>
 
           <div className="form-outline mb-4">
-            <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="form-control" />
+            <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="form-control" required/>
             <label className="form-label" htmlFor="form2Example2">Password</label>
           </div>
 
@@ -97,7 +82,7 @@ function UserLogin() {
               <a href="#!">Forgot password?</a>
             </div>
           </div>
-            <button type="button" onClick={handleLogin} className="btn btn-primary btn-block mb-4">Sign in</button>
+            <button type="submit" onClick={handleLogin} className="btn btn-primary btn-block mb-4">Sign in</button>
 
           <div className="text-center">
             <p>Not a member? <Link to="/register" style={{ textDecoration: 'none' }}>Register</Link></p>

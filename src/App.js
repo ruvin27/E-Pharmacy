@@ -10,7 +10,6 @@ import Profile from "./features/Profile";
 
 const App = () => {
   const { user } = useAuth();
-  console.log(user);
 
   return (
     <Router>
