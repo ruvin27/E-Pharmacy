@@ -37,6 +37,7 @@ function UserLogin() {
 
         if (snapshot.exists()) {
           const userData = snapshot.val();
+          userData.uid = userId;
           console.log('User data:', userData);
           await login(userData);
           navigate("/");

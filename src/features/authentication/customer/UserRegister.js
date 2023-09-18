@@ -46,6 +46,7 @@ function UserRegister() {
       const userRef = ref(db, `users/${userId}`);
       await set(userRef, formData)
       .then(async () => {
+        formData.uid = userId;
         await login(formData);
         navigate('/');
       })
