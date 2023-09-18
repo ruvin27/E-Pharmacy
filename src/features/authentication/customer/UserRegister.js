@@ -4,15 +4,23 @@ import '../../../assets/css/userAuth.css'
 import { Navbar, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
-
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from "../../../firebase";
+import { getDatabase, ref, set } from "firebase/database";
 
 function UserRegister() {
-  const { user, login } = useAuth();
+  const {  login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     name: '',
-    address: '',
+    address: {
+      addLine1: "",
+      addLine2: "",
+      city: "",
+      state: "",
+      code: ""
+    },
     phone: ''
   });
 
@@ -31,26 +39,44 @@ function UserRegister() {
 
   const handleRegistration = async () => {
     try {
-      const response = await fetch('http://localhost:4000/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password );
+      const userId = userCredential.user.uid;
 
-      console.log(response);
-
-      if (response.ok) {
-          await login(formData);
-          console.log(user);
-          navigate('/');
-      } else {
-        alert('Registration failed. Please try again.');
-      }
+      const db = getDatabase();
+      const userRef = ref(db, `users/${userId}`);
+      await set(userRef, formData)
+      .then(async () => {
+        await login(formData);
+        navigate('/');
+      })
+   
     } catch (error) {
-      alert('Error:', error);
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorCode + ': ' + errorMessage);
     }
+
+    // try {
+    //   const response = await fetch('http://localhost:4000/register', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(formData),
+    //   });
+
+    //   console.log(response);
+
+    //   if (response.ok) {
+    //       await login(formData);
+    //       console.log(user);
+    //       navigate('/');
+    //   } else {
+    //     alert('Registration failed. Please try again.');
+    //   }
+    // } catch (error) {
+    //   alert('Error:', error);
+    // }
   };
 
   return (
@@ -83,7 +109,7 @@ function UserRegister() {
                       </div>
                   </div>
               </div>
-          <button type="submit" onClick={handleRegistration} className="btn btn-primary btn-block mb-4">Register</button>
+          <button type="button" onClick={handleRegistration} className="btn btn-primary btn-block mb-4">Register</button>
           <div className="text-center">
             <p>Already a member? <Link to="/login" style={{ textDecoration: 'none' }}>
               Sign in

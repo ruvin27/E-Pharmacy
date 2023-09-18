@@ -1,60 +1,164 @@
 import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
-import { Container } from "react-bootstrap";
+import { Container, Button, Form, Row, Col } from "react-bootstrap";
 import profileClasses from "../assets/css/profile.module.css";
 import HomepageNav from "./navbar";
-import {useAuth} from "../features/authentication/AuthContext";
-import contactPic from "../assets/images/contact.jpg";
-import emailPic from "../assets/images/email.png";
+import { useAuth } from "../features/authentication/AuthContext";
 import namePic from "../assets/images/name.png";
-import addressPic from "../assets/images/address1.png";
 
 function Profile() {
-
-    const {user} = useAuth();
+  const { user } = useAuth();
 
   return (
     <div>
       <HomepageNav />
       <Container className={profileClasses.profile}>
-        <Card style={{ width: "50rem" , height:"35rem"}}>
-          <Card.Body>
-            <Card.Title style={{ margin: "2rem", textTransform:'uppercase', display: "flex", justifyContent: "center" }}>
-            <span>  <img src={namePic} alt="contact" /> </span>
-              <span style={{ flex: "0.5" }}><h1>{user? user.name: 'NAME'}</h1>  </span> 
-                </Card.Title> <hr />
+        <Card className={profileClasses.card}>
+          <Card.Body
+            className={profileClasses.cardBody}
+          >
+            <Card.Title
+              style={{
+                margin: "2rem",
+                textTransform: "uppercase",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <img src={namePic} alt="contact" />
+            </Card.Title>{" "}
+            <hr />
+            <Form>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="formPlaintextName"
+              >
+                <Form.Label column sm="3">
+                  Name
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    type="text"
+                    placeholder="Name"
+                    defaultValue={user ? user.name : ""}
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="formPlaintextEmail"
+              >
+                <Form.Label column sm="3">
+                  Email
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    type="email"
+                    placeholder="Email"
+                    defaultValue={user ? user.email : ""}
+                    disabled
+                  />
+                </Col>
+              </Form.Group>
 
-            <ListGroup className="list-group-flush">
-              <ListGroup.Item style={{ border: "none", margin: "1rem", display: "flex", justifyContent: "center" }}>
-              <span><img src={emailPic} alt="email"/></span>
-                <span style={{ flex: "0.5" }}> 
-                <p style={{fontSize:'20px'}}>{user ? user.email : 'EMAIL'}</p>
-                </span>
-              </ListGroup.Item>
-
-              <ListGroup.Item style={{border: "none", margin: "1rem",display: "flex", justifyContent: "center" }}>
-                <span>
-                <img src={contactPic} alt="contact"/>
-                </span>
-                <span style={{ flex: "0.5" }}>
-               <p style={{fontSize:'20px'}}>{user ? user.phone : 'CONTACT NUMBER'} </p>
-                </span>
-                </ListGroup.Item>
-
-                <ListGroup.Item style={{ border: "none",margin: "1rem",display: "flex", justifyContent: "center" }}>
-                <span>
-                <img src={addressPic} alt="address"/>
-                </span>
-                <span style={{ flex: "0.5" }}>
-                <p style={{fontSize:'20px'}}>{user ? user.address : 'ADDRESS'}</p>
-                </span>
-                </ListGroup.Item>
-            </ListGroup>
-
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="formPlaintextPhone"
+              >
+                <Form.Label column sm="3">
+                  Phone
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control type="phone" placeholder="Phone Number"
+                  defaultValue={user ? user.phone : ""}
+                   />
+                </Col>
+              </Form.Group>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="formPlaintextAddressLine1"
+              >
+                <Form.Label column sm="3">
+                  Address Line 1
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Address Line 1"
+                    defaultValue={user ? user.address.addLine1 : ""}
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="formPlaintextAddressLine2"
+              >
+                <Form.Label column sm="3">
+                  Address Line 2
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Address Line 2"
+                    defaultValue={user ? user.address.addLine2 : ""}
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="formPlaintextCity"
+              >
+                <Form.Label column sm="3">
+                  City
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter City"
+                    defaultValue={user ? user.address.city : ""}
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="formPlaintextState"
+              >
+                <Form.Label column sm="3">
+                  State
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter State"
+                    defaultValue={user ? user.address.state : ""}
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group
+                as={Row}
+                className="mb-3"
+                controlId="formPlaintextPCode"
+              >
+                <Form.Label column sm="3">
+                  Postal Code
+                </Form.Label>
+                <Col sm="9">
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Postal Code"
+                    defaultValue={user ? user.address.code : ""}
+                  />
+                </Col>
+              </Form.Group>
+            </Form>
+            <Button>Update Profile</Button>
           </Card.Body>
-          <Card.Footer className="text-center" style={{ padding: "20px" }}>
-            <Card.Link href="#">Edit Profile</Card.Link>
-          </Card.Footer>
         </Card>
       </Container>
     </div>

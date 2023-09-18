@@ -7,19 +7,22 @@ import { useAuth } from './features/authentication/AuthContext';
 import Cart from './features/orders/Cart';
 import Orders from './features/orders/Orders';
 import Profile from "./features/Profile";
+import AdminHomepage from './features/admin/AdminHomepage';
 
 const App = () => {
   const { user } = useAuth();
-
+  console.log(user);
   return (
     <Router>
       <Routes>
-        <Route path="/" element={user ? <Homepage/> : <Navigate to="/login" />} />
+        <Route path="/" element={<Homepage/>} exact={true} />
+        <Route path="/cart" element={<Cart/>} exact={true}/>
+
         <Route path="/login" element={!user ? <UserLogin/> : <Navigate to="/" />} />
         <Route path="/register" element={!user ? <UserRegister/> : <Navigate to="/" />}  />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/profile" element ={<Profile/>}/>
+        <Route path="/admin" element ={<AdminHomepage/>}/>
       </Routes>
     </Router>
   );
