@@ -1,5 +1,5 @@
 import { Card, ListGroup, Row, Col } from "react-bootstrap";
-import { getDatabase, ref, set, push } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
 import { useAuth } from "../authentication/AuthContext";
 import ProductCSS from '../../assets/css/product.module.css'
 import { useNavigate } from 'react-router-dom';

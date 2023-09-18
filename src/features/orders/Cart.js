@@ -5,10 +5,11 @@ import CartBody from "../../assets/css/cart.module.css";
 import { Button, Card, Form, ListGroup, Row, Col, Container, Tab, Tabs } from "react-bootstrap";
 import CartItem from "./CartItem";
 import cart from "../../assets/images/cart.jpg";
-import { getDatabase, ref, set, push } from "firebase/database";
+import { getDatabase, ref, set, push, get } from "firebase/database";
 
 const Cart = () => {
 	const { user } = useAuth();
+  const [orderTotal, setOrderTotal] = useState(0);
 	const [formData, setFormData] = useState({
 		email: "",
 		name: "",
@@ -32,7 +33,7 @@ const Cart = () => {
 				name: user.name,
 				address: user.address,
 				phone: user.phone,
-        uid: user.uid
+				uid: user.uid,
 			});
 		}
 	}, [user]);
@@ -63,9 +64,9 @@ const Cart = () => {
 			const newOrderRef = push(userRef);
 			formData.items = cartItems;
 			formData.type = "delivery";
-      formData.status = "Confirmed";
+			formData.status = "Confirmed";
 			await set(newOrderRef, formData);
-      setCartItems([]);
+			setCartItems([]);
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
@@ -73,16 +74,16 @@ const Cart = () => {
 		}
 	};
 
-  const handlePickUpSubmit = async () => {
+	const handlePickUpSubmit = async () => {
 		try {
 			const db = getDatabase();
 			const userRef = ref(db, `orders/${user.uid}`);
 			const newOrderRef = push(userRef);
 			formData.items = cartItems;
 			formData.type = "pickup";
-      formData.status = "Confirmed";
+			formData.status = "Confirmed";
 			await set(newOrderRef, formData);
-      setCartItems([]);
+			setCartItems([]);
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
@@ -90,48 +91,42 @@ const Cart = () => {
 		}
 	};
 
-  const [cartItems, setCartItems] = useState([
-    
-      {
-        id: 1,
-        productName: "PainAway",
-        productDescription: "Relief from minor aches and pains",
-        quantity: 2,
-      },
-      {
-        id: 2,
-        productName: "ColdRelief",
-        productDescription: "Effective cold and flu symptom relief",
-        quantity: 3,
-      },
-      {
-        id: 3,
-        productName: "HeadacheRelief",
-        productDescription: "Fast-acting headache relief tablets",
-        quantity: 1,
-      },
-      {
-        id: 4,
-        productName: "AllergyRelief",
-        productDescription: "Non-drowsy allergy relief medication",
-        quantity: 4,
-      },
-      {
-        id: 5,
-        productName: "CoughSyrup",
-        productDescription: "Honey-based cough syrup for soothing coughs",
-        quantity: 2,
-      },
-    
-  ]);
-  
+	const [cartItems, setCartItems] = useState([]);
+
+	useEffect( () => {
+    const fetchData = async () => {
+
+      
+      const db = getDatabase();
+      const userRef = ref(db, `cart/${user.uid}`);
+      
+      const snapshot = await get(userRef);
+      
+      if (snapshot.exists()) {
+        let cartData = snapshot.val();
+        cartData = Object.values(cartData);
+        let total = 0;
+        for (let x = 0; x< cartData.length; x++){
+          total = total + cartData[x].price;
+        }
+        setOrderTotal(total);
+        setCartItems(cartData);
+
+      } else {
+        setCartItems([]);
+      }
+    }
+    if(user){
+      fetchData()
+  } 
+	}, [user]);
 
 	return (
 		<div>
 			<HomepageNav />
 			<div className={CartBody.container}>
 				<Container>
-					{!cartItems ? (
+					{cartItems.length === 0 ? (
 						<div className={CartBody.empty_container}>
 							<img src={cart} alt="Empty Cart"></img>
 							<h2>Your Shopping cart is empty!</h2>
@@ -151,7 +146,7 @@ const Cart = () => {
 									</Card.Body>
 									<ListGroup className="list-group-flush">
 										<ListGroup.Item>
-											<b>Order Total: $10.99</b>
+											<b>Order Total: ${orderTotal}</b>
 										</ListGroup.Item>
 									</ListGroup>
 									<Card.Body>
