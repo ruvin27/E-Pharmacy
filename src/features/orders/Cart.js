@@ -65,6 +65,7 @@ const Cart = () => {
 			formData.type = "delivery";
       formData.status = "Confirmed";
 			await set(newOrderRef, formData);
+      setCartItems([]);
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
@@ -81,44 +82,49 @@ const Cart = () => {
 			formData.type = "pickup";
       formData.status = "Confirmed";
 			await set(newOrderRef, formData);
+      setCartItems([]);
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
 			alert(errorCode + ": " + errorMessage);
 		}
 	};
-	const cartItems = [
-		{
-			id: 1,
-			productName: "PainAway",
-			productDescription: "Relief from minor aches and pains",
-			quantity: 2,
-		},
-		{
-			id: 2,
-			productName: "ColdRelief",
-			productDescription: "Effective cold and flu symptom relief",
-			quantity: 3,
-		},
-		{
-			id: 3,
-			productName: "HeadacheRelief",
-			productDescription: "Fast-acting headache relief tablets",
-			quantity: 1,
-		},
-		{
-			id: 4,
-			productName: "AllergyRelief",
-			productDescription: "Non-drowsy allergy relief medication",
-			quantity: 4,
-		},
-		{
-			id: 5,
-			productName: "CoughSyrup",
-			productDescription: "Honey-based cough syrup for soothing coughs",
-			quantity: 2,
-		},
-	];
+
+  const [cartItems, setCartItems] = useState([
+    
+      {
+        id: 1,
+        productName: "PainAway",
+        productDescription: "Relief from minor aches and pains",
+        quantity: 2,
+      },
+      {
+        id: 2,
+        productName: "ColdRelief",
+        productDescription: "Effective cold and flu symptom relief",
+        quantity: 3,
+      },
+      {
+        id: 3,
+        productName: "HeadacheRelief",
+        productDescription: "Fast-acting headache relief tablets",
+        quantity: 1,
+      },
+      {
+        id: 4,
+        productName: "AllergyRelief",
+        productDescription: "Non-drowsy allergy relief medication",
+        quantity: 4,
+      },
+      {
+        id: 5,
+        productName: "CoughSyrup",
+        productDescription: "Honey-based cough syrup for soothing coughs",
+        quantity: 2,
+      },
+    
+  ]);
+  
 
 	return (
 		<div>
