@@ -21,6 +21,7 @@ function Product(props) {
           const db = getDatabase();
           const userRef = ref(db, `cart/${user.uid}/${item.id}`);
           await set(userRef, item);
+          alert("Item Added to Cart");
         } catch (error) {
           const errorCode = error.code;
           const errorMessage = error.message;

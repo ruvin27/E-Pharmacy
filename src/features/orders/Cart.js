@@ -5,11 +5,11 @@ import CartBody from "../../assets/css/cart.module.css";
 import { Button, Card, Form, ListGroup, Row, Col, Container, Tab, Tabs } from "react-bootstrap";
 import CartItem from "./CartItem";
 import cart from "../../assets/images/cart.jpg";
-import { getDatabase, ref, set, push, get } from "firebase/database";
+import { getDatabase, ref, set, push, get, remove } from "firebase/database";
 
 const Cart = () => {
 	const { user } = useAuth();
-  const [orderTotal, setOrderTotal] = useState(0);
+	const [orderTotal, setOrderTotal] = useState(0);
 	const [formData, setFormData] = useState({
 		email: "",
 		name: "",
@@ -65,7 +65,11 @@ const Cart = () => {
 			formData.items = cartItems;
 			formData.type = "delivery";
 			formData.status = "Confirmed";
+      formData.total = orderTotal;
 			await set(newOrderRef, formData);
+      const cartRef = ref(db, `cart/${user.uid}`);
+			await remove(cartRef);
+      alert("Order Confirmed");
 			setCartItems([]);
 		} catch (error) {
 			const errorCode = error.code;
@@ -82,8 +86,13 @@ const Cart = () => {
 			formData.items = cartItems;
 			formData.type = "pickup";
 			formData.status = "Confirmed";
+      formData.total = orderTotal;
 			await set(newOrderRef, formData);
+			const cartRef = ref(db, `cart/${user.uid}`);
+			await remove(cartRef);
+      alert("Order Confirmed");
 			setCartItems([]);
+      
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
@@ -93,33 +102,35 @@ const Cart = () => {
 
 	const [cartItems, setCartItems] = useState([]);
 
-	useEffect( () => {
-    const fetchData = async () => {
+	useEffect(() => {
+		const fetchData = async () => {
+			const db = getDatabase();
+			const userRef = ref(db, `cart/${user.uid}`);
 
-      
-      const db = getDatabase();
-      const userRef = ref(db, `cart/${user.uid}`);
-      
-      const snapshot = await get(userRef);
-      
-      if (snapshot.exists()) {
-        let cartData = snapshot.val();
-        cartData = Object.values(cartData);
-        let total = 0;
-        for (let x = 0; x< cartData.length; x++){
-          total = total + cartData[x].price;
-        }
-        setOrderTotal(total);
-        setCartItems(cartData);
+			const snapshot = await get(userRef);
 
-      } else {
-        setCartItems([]);
-      }
-    }
-    if(user){
-      fetchData()
-  } 
-	}, [user]);
+			if (snapshot.exists()) {
+				let cartData = snapshot.val();
+				cartData = Object.values(cartData);
+
+				setCartItems(cartData);
+			} else {
+				setCartItems([]);
+			}
+		};
+		if (user) {
+			fetchData();
+		}
+		if (cartItems.length > 0) {
+			let total = 0;
+			for (let x = 0; x < cartItems.length; x++) {
+				total = total + cartItems[x].price;
+			}
+			setOrderTotal(total);
+		} else {
+			setOrderTotal(0);
+		}
+	}, [user, cartItems]);
 
 	return (
 		<div>
@@ -136,7 +147,7 @@ const Cart = () => {
 							<h3 className={CartBody.header}>My Cart:</h3>
 							<Col xs={12} lg={8}>
 								{cartItems.map((item) => (
-									<CartItem key={item.id} product={item} />
+									<CartItem key={item.id} product={item} setCartItems={setCartItems} />
 								))}
 							</Col>
 							<Col>
