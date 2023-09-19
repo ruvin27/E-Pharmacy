@@ -5,7 +5,8 @@ import CartBody from "../../assets/css/cart.module.css";
 import { Button, Card, Form, ListGroup, Row, Col, Container, Tab, Tabs } from "react-bootstrap";
 import CartItem from "./CartItem";
 import cart from "../../assets/images/cart.jpg";
-import { getDatabase, ref, set, push, get, remove } from "firebase/database";
+import { getDatabase, ref, set, get, remove } from "firebase/database";
+import { v4 as uuidv4 } from 'uuid';
 
 const Cart = () => {
 	const { user } = useAuth();
@@ -60,13 +61,16 @@ const Cart = () => {
 	const handleDeliverySubmit = async () => {
 		try {
 			const db = getDatabase();
-			const userRef = ref(db, `orders/${user.uid}`);
-			const newOrderRef = push(userRef);
+      const orderId = uuidv4();
+			const userRef = ref(db, `orders/${user.uid}/${orderId}`);
+			// const newOrderRef = push(userRef);
 			formData.items = cartItems;
 			formData.type = "delivery";
 			formData.status = "Confirmed";
       formData.total = orderTotal;
-			await set(newOrderRef, formData);
+      formData.orderId = orderId;
+      formData.orderDate = new Date();
+			await set(userRef, formData);
       const cartRef = ref(db, `cart/${user.uid}`);
 			await remove(cartRef);
       alert("Order Confirmed");
@@ -81,13 +85,14 @@ const Cart = () => {
 	const handlePickUpSubmit = async () => {
 		try {
 			const db = getDatabase();
-			const userRef = ref(db, `orders/${user.uid}`);
-			const newOrderRef = push(userRef);
+      const orderId = uuidv4();
+			const userRef = ref(db, `orders/${user.uid}/${orderId}`);
 			formData.items = cartItems;
 			formData.type = "pickup";
 			formData.status = "Confirmed";
       formData.total = orderTotal;
-			await set(newOrderRef, formData);
+      formData.orderId = orderId;
+			await set(userRef, formData);
 			const cartRef = ref(db, `cart/${user.uid}`);
 			await remove(cartRef);
       alert("Order Confirmed");

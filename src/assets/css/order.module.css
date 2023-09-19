@@ -8,6 +8,7 @@
 .cardItem{
     margin-bottom: 20px;
     width: 100%;
+    cursor: pointer;
 }
 
 .header{
