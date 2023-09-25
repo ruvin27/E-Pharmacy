@@ -9,9 +9,12 @@ function HomepageNav() {
   const location = useLocation();
 
   const HandleLogout = () => {
+    console.log("Logging out...");
     logout();
+    console.log("User logged out.");
     navigate('/');
   }
+  
 
   return (
     <Navbar expand="lg" className="">

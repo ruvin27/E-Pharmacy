@@ -1,51 +1,44 @@
-import React, {useState, createContext, useContext, useEffect} from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-    // const[user, setUser] = useState({
-    //   email: '',
-    //   password:'',
-    //   name:'',
-    //   address: '',
-    //   phone: ''
-    // });
-    
-    const login = (userData) => {
-        setUser(userData);
+  const login = (userData) => {
+    setUser(userData);
+  }
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+  }
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
+    setIsLoading(false); // Mark loading as false when data is retrieved or not available
+  }, []);
 
-    const logout = () => {
-      console.log(user);
-        setUser(null);
-        console.log(user);
+  // Update localStorage or cookies when user data changes
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user');
     }
+  }, [user]);
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          setUser(JSON.parse(storedUser));
-        }
-      }, []);
-    
-      // Update localStorage or cookies when user data changes
-      useEffect(() => {
-        if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-        } else {
-          localStorage.removeItem('user');
-        }
-      }, [user]);
-
-    return (
-        <AuthContext.Provider value={{ user, login, logout}}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export const useAuth = () => {
-    return useContext(AuthContext);
-  };
+  return useContext(AuthContext);
+};

@@ -2,18 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../authentication/AuthContext";
 import HomepageNav from "../navbar";
 import CartBody from "../../assets/css/cart.module.css";
-import { Button, Card, Form, ListGroup, Row, Col, Container, Tab, Tabs } from "react-bootstrap";
+import { Card, Form, ListGroup, Row, Col, Container, Tab, Tabs } from "react-bootstrap";
 import CartItem from "./CartItem";
 import cart from "../../assets/images/cart.jpg";
-import { getDatabase, ref, set, get, remove } from "firebase/database";
+import { getDatabase, ref, get } from "firebase/database";
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
+import Loader from "../Loader";
 
 const Cart = () => {
 	const { user } = useAuth();
+	const [isLoading, setIsLoading] = useState(true);
 	const navigate = useNavigate();
 	const todaysDate = new Date().toISOString().split("T")[0];
-	//console.log(todaysDate);
 	const [orderTotal, setOrderTotal] = useState(0);
 	const [formData, setFormData] = useState({
 		email: "",
@@ -125,6 +126,7 @@ console.log(formData);
 			} else {
 				setCartItems([]);
 			}
+			setIsLoading(false);
 		};
 		if (user) {
 			fetchData();
@@ -143,8 +145,8 @@ console.log(formData);
 
 //console.log(cartItems);
 	return (
-		<div>
-			<HomepageNav />
+		<div>{isLoading ? <Loader/> :
+			(<div><HomepageNav />
 			<div className={CartBody.container}>
 				<Container>
 					{cartItems.length === 0 ? (
@@ -234,7 +236,9 @@ console.log(formData);
 						</Row>
 					)}
 				</Container>
-			</div>
+			</div></div>
+			
+	)}
 		</div>
 	);
 };
