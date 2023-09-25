@@ -6,7 +6,7 @@ import { useAuth } from "../authentication/AuthContext";
 
 const CartItem = ({ product,setCartItems }) => {
 	const { user } = useAuth();
-	const { name, description, price, id } = product;
+	const { name, description, price, id,count } = product;
 	const deleteItem = async () => {
 		try {
 			const db = getDatabase();
@@ -27,6 +27,9 @@ const CartItem = ({ product,setCartItems }) => {
 				<Card.Title>{name}</Card.Title>
 				<Card.Text className="mb-1">{description}</Card.Text>
 				<Card.Text className="mb-2">Price: ${price}</Card.Text>
+				<Card.Text className="mb-2">
+				<label htmlFor="quantity">Quantity: {count} </label>
+				</Card.Text>
 				<Button variant="danger" onClick={deleteItem}>
 					Delete
 				</Button>

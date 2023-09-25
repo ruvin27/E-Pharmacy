@@ -8,6 +8,9 @@ import Cart from './features/orders/Cart';
 import Orders from './features/orders/Orders';
 import Profile from "./features/Profile";
 import AdminHomepage from './features/admin/AdminHomepage';
+import AddProduct from './features/admin/AddProduct';
+import Checkout from './features/orders/Checkout';
+import OrderDetails from './features/orders/OrderDetails';
 
 const App = () => {
   const { user } = useAuth();
@@ -23,6 +26,9 @@ const App = () => {
         <Route path="/orders" element={<Orders />} />
         <Route path="/profile" element ={<Profile/>}/>
         <Route path="/admin" element ={<AdminHomepage/>}/>
+        <Route path="/addproduct" element ={<AddProduct/>}/>
+        <Route path="/checkout" element ={<Checkout/>}/>
+        <Route path="/orderdetails" element ={<OrderDetails/>}/>
       </Routes>
     </Router>
   );

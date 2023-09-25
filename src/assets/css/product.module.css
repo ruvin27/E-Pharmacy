@@ -16,3 +16,22 @@
 .cartLink{
   cursor: pointer;
 }
+button{
+	
+	margin-left:0.5vw;
+	padding:5px;
+	border-radius: 10px;
+	color: white;
+	background-color: rgb(13, 13, 100);
+}
+.quantity > button {
+	width: 4vw;
+	margin-left: 10px;
+	margin-right:10px;
+}
+
+.qtybtn > button{
+	width: 4vw;
+	margin:0.5vw;
+	
+}

@@ -32,6 +32,7 @@ const Orders = () => {
 			fetchData();
 		}
 	}, [user]);
+	console.log(orderItems);
 
 	return (
 		<div>

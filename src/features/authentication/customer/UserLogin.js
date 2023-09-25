@@ -26,10 +26,12 @@ function UserLogin() {
 
   
   
-    const handleLogin = async () => {
+    const handleLogin = async (event) => {
+      event.preventDefault();
       try {
         const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password );
        const userId = userCredential.user.uid;
+       console.log(userId);
 
         const db = getDatabase();
         const userRef = ref(db, `users/${userId}`);
@@ -60,14 +62,14 @@ function UserLogin() {
         </Container>
       </Navbar>
       <div className='center-container'>
-        <form className='center-content'>
+        <form className='center-content' onSubmit={handleLogin}>
           <div className="form-outline mb-4">
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="form-control" required/>
+            <input type="email" name="email" value={formData.email}  onChange={handleInputChange} className="form-control" required/>
             <label className="form-label" htmlFor="form2Example1">Email address</label>
           </div>
 
           <div className="form-outline mb-4">
-            <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="form-control" required/>
+            <input type="password" name="password" value={formData.password}  onChange={handleInputChange} className="form-control" required/>
             <label className="form-label" htmlFor="form2Example2">Password</label>
           </div>
 
@@ -83,7 +85,7 @@ function UserLogin() {
               <a href="#!">Forgot password?</a>
             </div>
           </div>
-            <button type="button" onClick={handleLogin} className="btn btn-primary btn-block mb-4">Sign in</button>
+            <button type="submit"  className="btn btn-primary btn-block mb-4">Sign in</button>
 
           <div className="text-center">
             <p>Not a member? <Link to="/register" style={{ textDecoration: 'none' }}>Register</Link></p>

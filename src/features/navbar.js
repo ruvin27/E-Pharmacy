@@ -1,11 +1,13 @@
 import React from 'react';
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
 import { useAuth } from './authentication/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function HomepageNav() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const HandleLogout = () => {
     logout();
     navigate('/');
@@ -22,15 +24,20 @@ function HomepageNav() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-              <Nav.Link href="/cart" style={{ color: 'white' }}>Cart</Nav.Link>
+            {location.pathname ==="/admin" ? (
+              <Nav.Link href="/addproduct" style={{ color: 'white' }}>Add Product</Nav.Link>
+            ) : (
+              <Nav>
+             <Nav.Link href="/cart" style={{ color: 'white' }}>Cart</Nav.Link>
               <Nav.Link href="/orders" style={{ color: 'white' }}>Orders</Nav.Link>
               <Nav.Link href="/profile" style={{ color: 'white' }}>Profile</Nav.Link>
               {user ? 
               <Nav.Link href="/" onClick={HandleLogout} style={{ color: 'white' }}>Logout</Nav.Link> :
               <Nav.Link href="/login" style={{ color: 'white' }}>Login/Register</Nav.Link> 
-              
               }
-             
+ 
+              </Nav>
+            )}
           </Nav>
           <Form className="d-flex">
             <Form.Control

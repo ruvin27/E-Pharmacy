@@ -37,7 +37,8 @@ function UserRegister() {
   console.log(formData);
 
 
-  const handleRegistration = async () => {
+  const handleRegistration = async (event) => {
+    event.preventDefault();
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password );
       const userId = userCredential.user.uid;
@@ -88,17 +89,17 @@ function UserRegister() {
         </Container>
       </Navbar>
       <div className='center-container'>
-        <form className='center-content'>
+        <form className='center-content' onSubmit={handleRegistration}>
           <div className="form-outline mb-4">
-            <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="form-control" required/>
+            <input type="text" name="name" value={formData.name}  onChange={handleInputChange} className="form-control" required/>
             <label className="form-label" htmlFor="form2Example1">Full Name</label>
           </div>
           <div className="form-outline mb-4">
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="form-control" required/>
+            <input type="email" name="email" value={formData.email}  onChange={handleInputChange} className="form-control" required/>
             <label className="form-label" htmlFor="form2Example2">Email address</label>
           </div>
           <div className="form-outline mb-4">
-            <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="form-control" required/>
+            <input type="password" name="password" value={formData.password}  onChange={handleInputChange} className="form-control" required/>
             <label className="form-label" htmlFor="form2Example3">Password</label>
           </div>
          
@@ -110,7 +111,7 @@ function UserRegister() {
                       </div>
                   </div>
               </div>
-          <button type="button" onClick={handleRegistration} className="btn btn-primary btn-block mb-4">Register</button>
+          <button type="submit"  className="btn btn-primary btn-block mb-4">Register</button>
           <div className="text-center">
             <p>Already a member? <Link to="/login" style={{ textDecoration: 'none' }}>
               Sign in

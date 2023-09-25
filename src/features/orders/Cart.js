@@ -7,9 +7,13 @@ import CartItem from "./CartItem";
 import cart from "../../assets/images/cart.jpg";
 import { getDatabase, ref, set, get, remove } from "firebase/database";
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
 	const { user } = useAuth();
+	const navigate = useNavigate();
+	const todaysDate = new Date().toISOString().split("T")[0];
+	//console.log(todaysDate);
 	const [orderTotal, setOrderTotal] = useState(0);
 	const [formData, setFormData] = useState({
 		email: "",
@@ -24,7 +28,7 @@ const Cart = () => {
 		phone: "",
 		uid: "",
 		time: "",
-		date: "",
+		orderdate: "",
 	});
 
 	useEffect(() => {
@@ -55,26 +59,26 @@ const Cart = () => {
 				},
 			});
 		}
-		console.log(formData);
+		//console.log(formData);
 	};
 
-	const handleDeliverySubmit = async () => {
+	const handleDeliverySubmit =  (event) => {
+		event.preventDefault();
 		try {
-			const db = getDatabase();
-      const orderId = uuidv4();
-			const userRef = ref(db, `orders/${user.uid}/${orderId}`);
-			// const newOrderRef = push(userRef);
-			formData.items = cartItems;
-			formData.type = "delivery";
-			formData.status = "Confirmed";
-      formData.total = orderTotal;
-      formData.orderId = orderId;
-      formData.orderDate = new Date();
-			await set(userRef, formData);
-      const cartRef = ref(db, `cart/${user.uid}`);
-			await remove(cartRef);
-      alert("Order Confirmed");
-			setCartItems([]);
+       const orderId = uuidv4();
+			const updatedFormData = {
+				...formData,
+				items: cartItems,
+				type: "delivery",
+				status: "Confirmed",
+				total: orderTotal,
+				orderId: orderId,
+				orderdate: new Date().toISOString().split('T')[0],
+			  };
+			  setFormData(updatedFormData);
+
+			  navigate("/checkout", { state: { data: updatedFormData } });
+
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
@@ -82,29 +86,28 @@ const Cart = () => {
 		}
 	};
 
-	const handlePickUpSubmit = async () => {
+	const handlePickUpSubmit =  (event) => {
+		event.preventDefault();
 		try {
-			const db = getDatabase();
-      const orderId = uuidv4();
-			const userRef = ref(db, `orders/${user.uid}/${orderId}`);
-			formData.items = cartItems;
-			formData.type = "pickup";
-			formData.status = "Confirmed";
-      formData.total = orderTotal;
-      formData.orderId = orderId;
-			await set(userRef, formData);
-			const cartRef = ref(db, `cart/${user.uid}`);
-			await remove(cartRef);
-      alert("Order Confirmed");
-			setCartItems([]);
-      
+       const orderId = uuidv4();
+	const updatedFormData = {
+		...formData,
+		items: cartItems,
+		type: "pickup",
+		status: "Confirmed",
+		total: orderTotal,
+		orderId: orderId,
+		orderdate: new Date().toISOString().split('T')[0],
+	  };
+	  setFormData(updatedFormData);
+	  navigate("/checkout", { state: { data: updatedFormData } });
 		} catch (error) {
 			const errorCode = error.code;
 			const errorMessage = error.message;
 			alert(errorCode + ": " + errorMessage);
 		}
 	};
-
+console.log(formData);
 	const [cartItems, setCartItems] = useState([]);
 
 	useEffect(() => {
@@ -129,14 +132,16 @@ const Cart = () => {
 		if (cartItems.length > 0) {
 			let total = 0;
 			for (let x = 0; x < cartItems.length; x++) {
-				total = total + cartItems[x].price;
+				total =  total + (cartItems[x].price* cartItems[x].count );
 			}
+			total = total.toFixed(2);
 			setOrderTotal(total);
 		} else {
 			setOrderTotal(0);
 		}
 	}, [user, cartItems]);
 
+//console.log(cartItems);
 	return (
 		<div>
 			<HomepageNav />
@@ -169,15 +174,15 @@ const Cart = () => {
 										<Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
 											<Tab eventKey="delivery" title="Delivery">
 												<Card.Title className="mb-3">Address</Card.Title>
-												<Form>
+												<Form onSubmit={handleDeliverySubmit}>
 													<Form.Group controlId="name" className="mb-3">
 														<Form.Label>Full Name</Form.Label>
-														<Form.Control type="text" name="name" placeholder="Enter Full Name" value={formData.name} onChange={handleInputChange} />
+														<Form.Control type="text" name="name" placeholder="Enter Full Name" value={formData.name} onChange={handleInputChange} required />
 													</Form.Group>
 
 													<Form.Group controlId="addLine1" className="mb-3">
 														<Form.Label>Address Line 1</Form.Label>
-														<Form.Control type="text" name="addLine1" placeholder="Enter address line 1" value={formData.address.addLine1} onChange={handleInputChange} />
+														<Form.Control type="text" name="addLine1" placeholder="Enter address line 1" value={formData.address.addLine1} onChange={handleInputChange}  required/>
 													</Form.Group>
 
 													<Form.Group controlId="addLine2" className="mb-3">
@@ -187,38 +192,38 @@ const Cart = () => {
 
 													<Form.Group controlId="city" className="mb-3">
 														<Form.Label>City</Form.Label>
-														<Form.Control type="text" name="city" placeholder="Enter city" value={formData.address.city} onChange={handleInputChange} />
+														<Form.Control type="text" name="city" placeholder="Enter city" value={formData.address.city} onChange={handleInputChange} required/>
 													</Form.Group>
 
 													<Form.Group controlId="state" className="mb-3">
 														<Form.Label>State</Form.Label>
-														<Form.Control type="text" name="state" placeholder="Enter state" value={formData.address.state} onChange={handleInputChange} />
+														<Form.Control type="text" name="state" placeholder="Enter state" value={formData.address.state} onChange={handleInputChange} required />
 													</Form.Group>
 
 													<Form.Group controlId="code" className="mb-3">
 														<Form.Label>Postal Code</Form.Label>
-														<Form.Control type="text" name="code" placeholder="Enter postal code" value={formData.address.code} onChange={handleInputChange} />
+														<Form.Control type="text" name="code" placeholder="Enter postal code" value={formData.address.code} onChange={handleInputChange} required/>
 													</Form.Group>
-													<Button variant="primary" className={CartBody.checkoutbtn} onClick={handleDeliverySubmit}>
+													<button type="submit" className={CartBody.checkoutbtn} >
 														Checkout
-													</Button>
+													</button>
 												</Form>
 											</Tab>
 											<Tab eventKey="pickup" title="Pick-Up">
 												<div>
 													<Card.Title className="mb-3">Select Time for Pick-Up</Card.Title>
-													<Form>
+													<Form onSubmit={handlePickUpSubmit}>
 														<Form.Group controlId="date" className="mb-3">
 															<Form.Label>Select Date</Form.Label>
-															<Form.Control type="date" name="date" value={formData.date} onChange={handleInputChange} />
+															<Form.Control type="date" name="date"  onChange={handleInputChange} min={todaysDate} required/>
 														</Form.Group>
 														<Form.Group controlId="time" className="mb-3">
 															<Form.Label>Select Time</Form.Label>
-															<Form.Control type="time" name="time" value={formData.time} onChange={handleInputChange} />
+															<Form.Control type="time" name="time"  onChange={handleInputChange} required />
 														</Form.Group>
-														<Button variant="primary" className={CartBody.checkoutbtn} onClick={handlePickUpSubmit}>
+														<button type="submit" className={CartBody.checkoutbtn}>
 															Checkout
-														</Button>
+														</button>
 													</Form>
 												</div>
 											</Tab>
