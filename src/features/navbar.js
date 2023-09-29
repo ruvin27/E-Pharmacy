@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
 import { useAuth } from './authentication/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import {Link} from "react-router-dom";
 
 function HomepageNav() {
   const { user, logout } = useAuth();
@@ -19,7 +20,7 @@ function HomepageNav() {
   return (
     <Navbar expand="lg" className="">
       <Container fluid>
-          <Navbar.Brand href="/" style={{ color: 'white' }}>UTA E-Pharmacy</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/" style={{ color: 'white' }}>UTA E-Pharmacy</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -28,15 +29,15 @@ function HomepageNav() {
             navbarScroll
           >
             {location.pathname ==="/admin" ? (
-              <Nav.Link href="/addproduct" style={{ color: 'white' }}>Add Product</Nav.Link>
+              <Nav.Link as={Link} to="/addproduct" style={{ color: 'white' }}>Add New Product</Nav.Link>
             ) : (
               <Nav>
-             <Nav.Link href="/cart" style={{ color: 'white' }}>Cart</Nav.Link>
-              <Nav.Link href="/orders" style={{ color: 'white' }}>Orders</Nav.Link>
-              <Nav.Link href="/profile" style={{ color: 'white' }}>Profile</Nav.Link>
+             <Nav.Link  as={Link} to="/cart" style={{ color: 'white' }}>Cart</Nav.Link>
+              <Nav.Link as={Link} to="/orders" style={{ color: 'white' }}>Orders</Nav.Link>
+              <Nav.Link as={Link} to="/profile" style={{ color: 'white' }}>Profile</Nav.Link>
               {user ? 
-              <Nav.Link href="/" onClick={HandleLogout} style={{ color: 'white' }}>Logout</Nav.Link> :
-              <Nav.Link href="/login" style={{ color: 'white' }}>Login/Register</Nav.Link> 
+              <Nav.Link  as={Link} to="/" onClick={HandleLogout} style={{ color: 'white' }}>Logout</Nav.Link> :
+              <Nav.Link  as={Link} to="/login" style={{ color: 'white' }}>Login/Register</Nav.Link> 
               }
  
               </Nav>

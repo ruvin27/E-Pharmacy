@@ -1,5 +1,5 @@
 import { Card, ListGroup, Row, Col } from "react-bootstrap";
-import { getDatabase, ref, set, get } from "firebase/database";
+import { getDatabase, ref, set, get,remove } from "firebase/database";
 import { useAuth } from "../authentication/AuthContext";
 import ProductCSS from "../../assets/css/product.module.css";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -19,6 +19,7 @@ function Product(props) {
       setCartBtnClicked([...cartBtnClicked, productId]);
     }
   };
+ 
 
   const incrementQty = (productId) => {
     setPrdtQty({
@@ -38,6 +39,14 @@ function Product(props) {
 	setCartBtnClicked([])
   }
 
+  const removeFromCart = async (productId) => {
+    const db = getDatabase();
+    const itemRef = ref(db,`cart/${user.uid}/${productId}`);
+    await remove(itemRef);
+    alert("Item removed from cart")
+    setPrdtQty({ ...prdtQty, [productId]:0});
+  }
+
   const addToCart = async (productId) => {
     if (prdtQty[productId] >= 1) {
       if (!user) {
@@ -46,6 +55,7 @@ function Product(props) {
       } else {
         try {
           const db = getDatabase();
+          // to check if the user entered valid number of products
           const prodRef = ref(db, `products/${productId}`);
           const snapshot = await get(prodRef);
           console.log(prdtQty);
@@ -74,8 +84,40 @@ function Product(props) {
       }
     } else{
 		alert("please select atleast one item to add to the cart");
-	}
-  };
+	 }
+ };
+  // console.log(cartBtnClicked);
+ //console.log(prdtQty);
+
+// to add products in admin side
+const addProduct = async (productId,operation) =>{
+  const multiplier = operation === "sub"? -1 : 1;
+  try{
+    const db=  getDatabase();
+    const prodRef = ref(db,`products/${productId}`);
+    const snapshot = await get(prodRef);
+    if (snapshot.exists()){
+      const prodData = snapshot.val();
+      await set(prodRef,{
+        ...prodData,
+        count:prodData.count + multiplier * prdtQty[productId]
+      })
+    }
+    alert(`item ${operation === "sub" ? "added" : "removed"} successfully`);
+    toggleCartBtn(productId);
+    } catch(error){
+       alert(error.code + error.message);
+    }
+
+  }
+
+  const deleteProduct = async (productId) =>{
+    const db= getDatabase();
+    const prodRef = ref(db,`products/${productId}`);
+    await remove(prodRef);
+    alert("Item deleted successfully");
+  }
+
 
   return props.prod.map((item) => {
     const { id, prodName, description, price, image, count } = item;
@@ -98,31 +140,41 @@ function Product(props) {
                 <ListGroup.Item>${price}</ListGroup.Item>
                 <ListGroup.Item>Available: {count}</ListGroup.Item>
               </ListGroup>
-              {location.pathname !== "/admin" && (
+              
                 <Card.Body>
                   {cartBtnClicked.includes(id) ? ( // Check if the ID is in the array
                     <div>
-					<div className={ProductCSS.quantity}>
-                      <button onClick={() => incrementQty(id)}>+</button>
-                     <span>{prdtQty[id]}</span>
-                      <button onClick={() => decrementQty(id)}>-</button>
-					  </div>
-					  <div className={ProductCSS.qtybtn}>
-                      <button onClick={() => addToCart(id)}>Add</button>
-					  <button onClick={() =>cancelCart(id)}> Cancel </button>
-					  </div>
-					  </div>
-                  ) : (
-					<div>
-                    <button onClick={() => toggleCartBtn(id)} className={ProductCSS.cartLink} >
-                      {prdtQty[id] >= 1 ? "Remove" : "Add to cart"}
-                    </button>
-					<button>Add to Wishlist</button>
-					</div>
+                      <div className={ProductCSS.qtybtn}>
+                                  <button onClick={() => incrementQty(id)}>+</button>
+                                <span>{prdtQty[id]}</span>
+                                  <button onClick={() => decrementQty(id)}>-</button>
+                        </div>
+                        <div className={ProductCSS.qtybtn}>
+                                <button onClick={() =>{location.pathname === "/admin" ? addProduct(id,'add') : addToCart(id)}}> Add </button>
+                                {location.pathname === "/admin" &&(
+                                  <button onClick={() => addProduct(id,'sub')} > Remove </button>
+                                )}
+                                <button onClick={() =>cancelCart(id)}> Cancel </button>
+                        </div>
+                        </div>
+                         ) : (
+                      <div>
+                         {(prdtQty[id] >= 1 && location.pathname !== "/admin" ) ? (
+                          <button onClick={() =>removeFromCart(id)} className={ProductCSS.cartLink}> Remove</button>
+                         ) : ( 
+                                <>
+                                <button onClick={() => toggleCartBtn(id)} className={ProductCSS.cartLink} >
+                                    {location.pathname !== "/admin" ? "Add to cart" : "Add/Remove"} 
+                                      </button>
+                                </>
+                              
+                         )}
+                      <button onClick={()=> deleteProduct(id)} >{location.pathname !== "/admin" ? "Add to Wishlist" : "Delete"}</button>
+                      </div>
                   )}
                   
                 </Card.Body>
-              )}
+              
             </Card>
           </Col>
         </Row>

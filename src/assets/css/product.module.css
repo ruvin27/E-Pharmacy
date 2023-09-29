@@ -24,11 +24,18 @@ button{
 	color: white;
 	background-color: rgb(13, 13, 100);
 }
-.quantity > button {
+/* .quantity > button {
 	width: 4vw;
 	margin-left: 10px;
 	margin-right:10px;
-}
+} */
+
+.qtybtn {
+	display: flex;
+	justify-content: center;
+	width: 100%; 
+	margin: 0 auto; 
+  }
 
 .qtybtn > button{
 	width: 4vw;

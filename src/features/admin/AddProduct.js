@@ -11,21 +11,22 @@ function AddProduct(){
         id:'',
         prodName: '',
         description: '',
-         price:'',
+         price:0,
          image:'',
-         count:''
+         count:0
     });
     const navigate = useNavigate();
 
     const handleFormChange =(event) => {
         const {name,value} = event.target;
+        const newValue = (name === 'price' || name === 'count') ? parseFloat(value): value;
         setProductDetails({
             ...productDetails,
-            [name]: value
+            [name]: newValue
         });
     }
 
-    const  handleSubmitter = async (event) =>{
+  const  handleSubmitter = async (event) =>{
         event.preventDefault();
         try{
           const db = getDatabase();
@@ -43,7 +44,7 @@ function AddProduct(){
 
         }
     }
-
+console.log(productDetails);
 
 return(
 <div>

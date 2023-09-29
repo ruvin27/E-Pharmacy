@@ -108,7 +108,7 @@ const Cart = () => {
 			alert(errorCode + ": " + errorMessage);
 		}
 	};
-console.log(formData);
+//console.log(formData);
 	const [cartItems, setCartItems] = useState([]);
 
 	useEffect(() => {
