@@ -30,9 +30,9 @@ const CartItem = ({ product,setCartItems }) => {
 				<Card.Text className="mb-2">
 				<label htmlFor="quantity">Quantity: {count} </label>
 				</Card.Text>
-				<Button variant="danger" onClick={deleteItem}>
+				<button  className={CartItemCSS.deletebtn} onClick={deleteItem}>
 					Delete
-				</Button>
+				</button>
 			</Card.Body>
 		</Card>
 	);

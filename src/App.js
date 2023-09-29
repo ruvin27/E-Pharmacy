@@ -13,6 +13,7 @@ import Checkout from './features/orders/Checkout';
 import OrderDetails from './features/orders/OrderDetails';
 import Loader from './features/Loader';
 import NoAccess from './features/authentication/admin/NoAccess';
+import AdminOrders from "./features/admin/AdminOrders";
 
 const App = () => {
   const { user, isLoading } = useAuth();
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/checkout" element ={user ? <Checkout/> : <Navigate to="/login" />}/>
         <Route path="/orderdetails" element ={user ? <OrderDetails/> : <Navigate to="/login" />}/>
         <Route path="/noaccess" element ={<NoAccess/>}/>
+        <Route path="/adminorders" element={user && user.hasOwnProperty('admin')? <AdminOrders/> : <NoAccess/>}/>
       </Routes>
     </Router>
   );

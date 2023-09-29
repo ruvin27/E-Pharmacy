@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    alert("You logged out!!Login again!")
   }
 
   useEffect(() => {

@@ -54,7 +54,8 @@ function Profile() {
 		console.log(formData);
 	};
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (event) => {
+	event.preventDefault();
     console.log("here")
     try{
       const db = getDatabase();
@@ -63,7 +64,7 @@ function Profile() {
       .then(async () => {
         await login(formData);
       })
-   
+	  alert("Profile updated successfully")
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -87,7 +88,7 @@ function Profile() {
 							<img src={namePic} alt="contact" />
 						</Card.Title>{" "}
 						<hr />
-						<Form>
+						<Form onSubmit={handleUpdate}>
 							<Form.Group as={Row} className="mb-3" controlId="formPlaintextName">
 								<Form.Label column sm="3">
 									Name
@@ -153,8 +154,9 @@ function Profile() {
 									<Form.Control type="text" placeholder="Enter Postal Code" name="code" value={formData.address.code} onChange={handleInputChange} />
 								</Col>
 							</Form.Group>
+							<button className={profileClasses.updatebtn} >Update Profile</button>
 						</Form>
-						<Button onClick={handleUpdate}>Update Profile</Button>
+						
 					</Card.Body>
 				</Card>
 			</Container>

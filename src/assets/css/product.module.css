@@ -38,7 +38,7 @@ button{
   }
 
 .qtybtn > button{
-	width: 4vw;
+	min-width: 4vw;
 	margin:0.5vw;
 	
 }

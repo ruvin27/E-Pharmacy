@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
+import { Button, Container, Form, Nav, NavItem, Navbar } from 'react-bootstrap';
 import { useAuth } from './authentication/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {Link} from "react-router-dom";
@@ -20,7 +20,12 @@ function HomepageNav() {
   return (
     <Navbar expand="lg" className="">
       <Container fluid>
+      {location.pathname ==="/admin" || location.pathname ==="/adminorders" || location.pathname ==="/addproduct" ?(
+          <Navbar.Brand as={Link} to="/admin" style={{ color: 'white' }}>UTA E-Pharmacy</Navbar.Brand>
+        ) :(
           <Navbar.Brand as={Link} to="/" style={{ color: 'white' }}>UTA E-Pharmacy</Navbar.Brand>
+      )}
+         
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -28,8 +33,11 @@ function HomepageNav() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            {location.pathname ==="/admin" ? (
+            {location.pathname ==="/admin" || location.pathname ==="/adminorders" || location.pathname ==="/addproduct" ? (
+              <Nav>
               <Nav.Link as={Link} to="/addproduct" style={{ color: 'white' }}>Add New Product</Nav.Link>
+              <Nav.Link as={Link} to="/adminorders" style={{ color: 'white' }} > Orders </Nav.Link>
+              </Nav>
             ) : (
               <Nav>
              <Nav.Link  as={Link} to="/cart" style={{ color: 'white' }}>Cart</Nav.Link>
@@ -39,20 +47,31 @@ function HomepageNav() {
               <Nav.Link  as={Link} to="/" onClick={HandleLogout} style={{ color: 'white' }}>Logout</Nav.Link> :
               <Nav.Link  as={Link} to="/login" style={{ color: 'white' }}>Login/Register</Nav.Link> 
               }
- 
+            
+            {(user && user.hasOwnProperty('admin') ) &&(
+              <Nav.Link as={Link} to="/admin" style={{ color: 'white' }}>Admin Dashboard</Nav.Link>
+            )}
+              
+              <Form className="d-flex" style={{width:'30vw',marginLeft:"30px"}}>
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
+                  <Button variant="primary">Search</Button>
+                </Form>
+
               </Nav>
             )}
           </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="primary">Search</Button>
-          </Form>
+
         </Navbar.Collapse>
+        {location.pathname === '/admin' ? (
+          <NavItem style={{fontSize:'20px'}}> Welcome Admin !!!</NavItem>
+        ) : (
+          <NavItem style={{fontSize:'20px'}}> Welcome {user ? user.name: ""} !!!</NavItem>
+        )}
+
       </Container>
     </Navbar>
   );

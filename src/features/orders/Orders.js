@@ -49,7 +49,7 @@ const Orders = () => {
 							<h3 className={OrdersCSS.header}>My Orders:</h3>
 							<Col>
 								{orderItems.map((item) => (
-									<OrderCard key={item.orderId} order={item} />
+									<OrderCard key={item.orderId} order={item} displaybutton='true' />
 								))}
 							</Col>
 						</Row>
