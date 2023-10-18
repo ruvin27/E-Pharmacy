@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../assets/css/userAuth.css";
+import  "../../assets/css/userAuth.css";
 import HomepageNav from "../navbar";
 import {getDatabase,ref,set, push} from "firebase/database"
 import { useNavigate } from "react-router-dom";
@@ -49,7 +49,11 @@ console.log(productDetails);
 return(
 <div>
     <HomepageNav/>
-<div className='center-container'>
+    <div >
+      <div>
+        <h3 style={{textAlign:'center',marginTop:'30px',fontSize:'35px', fontFamily:"Georgia, 'Times New Roman', Times, serif",fontWeight: 'bold'}}> Add New Product</h3>
+      </div>
+    <div className='center-container'>
         <form className='center-content' onSubmit={handleSubmitter}>
           <div className="form-outline mb-4">
             <input type="text" name="prodName" onChange={handleFormChange}   className="form-control" required/>
@@ -76,6 +80,8 @@ return(
           <button type="submit"  className="btn btn-primary btn-block mb-4">Add Product</button>
   </form>
   </div>
+    </div>
+
 </div>
 
 )

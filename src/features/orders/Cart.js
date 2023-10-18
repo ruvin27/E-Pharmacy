@@ -10,8 +10,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader";
 
+
 const Cart = () => {
 	const { user } = useAuth();
+
 	const [isLoading, setIsLoading] = useState(true);
 	const navigate = useNavigate();
 	const todaysDate = new Date().toISOString().split("T")[0];

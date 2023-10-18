@@ -88,6 +88,20 @@ function Product(props) {
  };
   // console.log(cartBtnClicked);
  //console.log(prdtQty);
+const AddToWishlist = async (productId) =>{
+  try{
+      const db = getDatabase();
+      const wishlistRef = ref(db,`wishlist/${user.uid}/${productId}`)
+      await set(wishlistRef,{
+        ...props.prod.find(item => item.id ===productId),
+        count:1
+        })
+      alert("Item added to Wishlist")
+    } catch(error){
+    alert(error.code + error.message)
+  }
+ 
+}
 
 // to add products in admin side
 const addProduct = async (productId,operation) =>{
@@ -160,16 +174,18 @@ const addProduct = async (productId,operation) =>{
                          ) : (
                       <div>
                          {(prdtQty[id] >= 1 && location.pathname !== "/admin" ) ? (
-                          <button onClick={() =>removeFromCart(id)} className={ProductCSS.cartLink}> Remove</button>
+                          <button onClick={() =>removeFromCart(id)} className={ProductCSS.addbtn}> Remove</button>
                          ) : ( 
                                 <>
-                                <button onClick={() => toggleCartBtn(id)} className={ProductCSS.cartLink} >
+                                <button  onClick={() => toggleCartBtn(id)} className={ProductCSS.addbtn} >
                                     {location.pathname !== "/admin" ? "Add to cart" : "Add/Remove"} 
                                       </button>
                                 </>
                               
                          )}
-                      <button onClick={()=> deleteProduct(id)} >{location.pathname !== "/admin" ? "Add to Wishlist" : "Delete"}</button>
+                      <button className={ProductCSS.addbtn} onClick={ location.pathname !=="/admin" ? (() => AddToWishlist(id)) : (()=> deleteProduct(id))} >
+                        {location.pathname !== "/admin" ? "Add to Wishlist" : "Delete"}
+                        </button>
                       </div>
                   )}
                   

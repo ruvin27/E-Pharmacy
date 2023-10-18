@@ -7,6 +7,7 @@ import { useAuth } from '../AuthContext';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from "../../../firebase";
 import { getDatabase, ref, set } from "firebase/database";
+import  loginCSS from "../../../assets/css/login.module.css";
 
 function UserRegister() {
   const {  login } = useAuth();
@@ -58,38 +59,21 @@ function UserRegister() {
       alert(errorCode + ': ' + errorMessage);
     }
 
-    // try {
-    //   const response = await fetch('http://localhost:4000/register', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   console.log(response);
-
-    //   if (response.ok) {
-    //       await login(formData);
-    //       console.log(user);
-    //       navigate('/');
-    //   } else {
-    //     alert('Registration failed. Please try again.');
-    //   }
-    // } catch (error) {
-    //   alert('Error:', error);
-    // }
   };
 
   return (
-    <div>
+    <div className={loginCSS.bgp}>
       <Navbar expand="lg">
         <Container fluid>
           <Navbar.Brand href='/' style={{ color: 'white' }}>UTA E-Pharmacy</Navbar.Brand>
         </Container>
       </Navbar>
+      <div>
+        <h3 style={{textAlign:'center',marginTop:'50px',fontSize:'35px', fontFamily:"Georgia, 'Times New Roman', Times, serif",fontWeight: 'bold'}}>Welcome to UTA E-Pharmacy</h3>
+      </div>
       <div className='center-container'>
         <form className='center-content' onSubmit={handleRegistration}>
+        <h4 > Register </h4>
           <div className="form-outline mb-4">
             <input type="text" name="name" value={formData.name}  onChange={handleInputChange} className="form-control" required/>
             <label className="form-label" htmlFor="form2Example1">Full Name</label>
@@ -102,15 +86,7 @@ function UserRegister() {
             <input type="password" name="password" value={formData.password}  onChange={handleInputChange} className="form-control" required/>
             <label className="form-label" htmlFor="form2Example3">Password</label>
           </div>
-         
-          <div className="row mb-4">
-                  <div className="col d-flex justify-content-center">
-                      <div className="form-check">
-                          <input className="form-check-input" type="checkbox" value="" id="form2Example4" checked readOnly/>
-                          <label className="form-check-label" htmlFor="form2Example4"> I agree to the terms and conditions</label>
-                      </div>
-                  </div>
-              </div>
+
           <button type="submit"  className="btn btn-primary btn-block mb-4">Register</button>
           <div className="text-center">
             <p>Already a member? <Link to="/login" style={{ textDecoration: 'none' }}>

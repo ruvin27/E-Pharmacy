@@ -14,7 +14,8 @@ import OrderDetails from './features/orders/OrderDetails';
 import Loader from './features/Loader';
 import NoAccess from './features/authentication/admin/NoAccess';
 import AdminOrders from "./features/admin/AdminOrders";
-
+import Wishlist from "./features/orders/Wishlist";
+import { SearchContextProvider } from './features/dashboard/SearchContext';
 const App = () => {
   const { user, isLoading } = useAuth();
   console.log(user);
@@ -23,6 +24,7 @@ const App = () => {
     return <Loader/>;
   }
   return (
+    <SearchContextProvider>
     <Router>
       <Routes>
         <Route path="/" element={<Homepage/>} exact={true} />
@@ -31,6 +33,7 @@ const App = () => {
         <Route path="/login" element={!user ? <UserLogin/> : <Navigate to="/" />} />
         <Route path="/register" element={!user ? <UserRegister/> : <Navigate to="/" />}  />
         <Route path="/orders" element={user ? <Orders/> : <Navigate to="/login" />} />
+        <Route path="/wishlist" element={user ? <Wishlist/> : <Navigate to="/login" />} />
         <Route path="/profile" element ={user ? <Profile/> : <Navigate to="/login" />}/>
         <Route path="/admin" element ={user && user.hasOwnProperty('admin') ? <AdminHomepage/> : <Navigate to="/noaccess" />}/>
         <Route path="/addproduct" element ={user && user.hasOwnProperty('admin') ? <AddProduct/> : <Navigate to="/noaccess" />}/>
@@ -40,6 +43,7 @@ const App = () => {
         <Route path="/adminorders" element={user && user.hasOwnProperty('admin')? <AdminOrders/> : <NoAccess/>}/>
       </Routes>
     </Router>
+    </SearchContextProvider>
   );
 };
 
