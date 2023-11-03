@@ -19,3 +19,12 @@
     border-radius: 5px;
     padding: 40px;
 }
+
+.center-content2 {
+    text-align: center;
+    width: 400px;
+    height: 600px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 40px;
+}

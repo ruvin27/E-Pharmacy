@@ -43,6 +43,7 @@ function UserLogin() {
           userData.uid = userId;
           console.log('User data:', userData);
           await login(userData);
+          alert("login successful!!!")
           navigate("/");
         } else {
           alert("User not found.");
@@ -51,7 +52,7 @@ function UserLogin() {
       } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(errorCode + ': ' + errorMessage);
+        alert( errorMessage);
       }
     };
 

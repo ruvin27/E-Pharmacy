@@ -49,6 +49,7 @@ function UserRegister() {
       await set(userRef, formData)
       .then(async () => {
         formData.uid = userId;
+        alert("Registration successfull!!")
         await login(formData);
         navigate('/');
       })
@@ -79,7 +80,8 @@ function UserRegister() {
             <label className="form-label" htmlFor="form2Example1">Full Name</label>
           </div>
           <div className="form-outline mb-4">
-            <input type="email" name="email" value={formData.email}  onChange={handleInputChange} className="form-control" required/>
+            <input type="email" name="email" value={formData.email}  onChange={handleInputChange} className="form-control" 
+            pattern="^.+@(.*\.com|.*\.edu)$" title='Please enter your email with .com or .edu' required/>
             <label className="form-label" htmlFor="form2Example2">Email address</label>
           </div>
           <div className="form-outline mb-4">

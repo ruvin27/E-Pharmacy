@@ -54,7 +54,7 @@ return(
         <h3 style={{textAlign:'center',marginTop:'30px',fontSize:'35px', fontFamily:"Georgia, 'Times New Roman', Times, serif",fontWeight: 'bold'}}> Add New Product</h3>
       </div>
     <div className='center-container'>
-        <form className='center-content' onSubmit={handleSubmitter}>
+        <form className='center-content2' onSubmit={handleSubmitter}>
           <div className="form-outline mb-4">
             <input type="text" name="prodName" onChange={handleFormChange}   className="form-control" required/>
             <label className="form-label" htmlFor="form2Example1">Product Name</label>

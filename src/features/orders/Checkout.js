@@ -42,7 +42,7 @@ function Checkout() {
       // removing the order details from cart
       const cartRef = ref(db, `cart/${user.uid}`);
       await remove(cartRef);
-      alert("Order Confirmed");
+     // alert("Order Confirmed");
       navigate("/orders");
     } catch (error) {
       const errorCode = error.code;
