@@ -18,7 +18,6 @@ import Wishlist from "./features/orders/Wishlist";
 import { SearchContextProvider } from './features/dashboard/SearchContext';
 const App = () => {
   const { user, isLoading } = useAuth();
-  console.log(user);
 
   if (isLoading) {
     return <Loader/>;
@@ -28,19 +27,19 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Homepage/>} exact={true} />
-        <Route path="/cart" element={user ? <Cart/> : <Navigate to="/login" />}/>
+        <Route path="/cart" element={user?.admin !== true ? <Cart/> : <Navigate to="/login" />}/>
 
         <Route path="/login" element={!user ? <UserLogin/> : <Navigate to="/" />} />
         <Route path="/register" element={!user ? <UserRegister/> : <Navigate to="/" />}  />
-        <Route path="/orders" element={user ? <Orders/> : <Navigate to="/login" />} />
-        <Route path="/wishlist" element={user ? <Wishlist/> : <Navigate to="/login" />} />
+        <Route path="/orders" element={!user?.admin ? <Orders/> : <Navigate to="/login" />} />
+        <Route path="/wishlist" element={!user?.admin ? <Wishlist/> : <Navigate to="/login" />} />
         <Route path="/profile" element ={user ? <Profile/> : <Navigate to="/login" />}/>
-        <Route path="/admin" element ={user && user.hasOwnProperty('admin') ? <AdminHomepage/> : <Navigate to="/noaccess" />}/>
-        <Route path="/addproduct" element ={user && user.hasOwnProperty('admin') ? <AddProduct/> : <Navigate to="/noaccess" />}/>
-        <Route path="/checkout" element ={user ? <Checkout/> : <Navigate to="/login" />}/>
-        <Route path="/orderdetails" element ={user ? <OrderDetails/> : <Navigate to="/login" />}/>
+        <Route path="/admin" element ={user?.admin ? <AdminHomepage/> : <Navigate to="/noaccess" />}/>
+        <Route path="/addproduct" element ={user?.admin ? <AddProduct/> : <Navigate to="/noaccess" />}/>
+        <Route path="/checkout" element ={!user?.admin ? <Checkout/> : <Navigate to="/login" />}/>
+        <Route path="/orderdetails" element ={!user?.admin ? <OrderDetails/> : <Navigate to="/login" />}/>
         <Route path="/noaccess" element ={<NoAccess/>}/>
-        <Route path="/adminorders" element={user && user.hasOwnProperty('admin')? <AdminOrders/> : <NoAccess/>}/>
+        <Route path="/adminorders" element={user?.admin ? <AdminOrders/> : <NoAccess/>}/>
       </Routes>
     </Router>
     </SearchContextProvider>

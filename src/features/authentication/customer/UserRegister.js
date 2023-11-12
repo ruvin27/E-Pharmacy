@@ -15,6 +15,7 @@ function UserRegister() {
     email: '',
     password: '',
     name: '',
+    admin: false,
     address: {
       addLine1: "",
       addLine2: "",

@@ -206,7 +206,7 @@ const Cart = () => {
 
 													<Form.Group controlId="code" className="mb-3">
 														<Form.Label>Postal Code</Form.Label>
-														<Form.Control type="text" name="code" placeholder="Enter postal code" value={formData.address.code} onChange={handleInputChange} required/>
+														<Form.Control type="number" name="code" placeholder="Enter postal code" value={formData.address.code} onChange={handleInputChange} required/>
 													</Form.Group>
 													<button type="submit" className={CartBody.checkoutbtn} >
 														Checkout

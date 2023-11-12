@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import CartBody from "../../assets/css/cart.module.css";
 import {  Row, Col, Container } from "react-bootstrap";
-import {getDatabase,ref,get,set} from "firebase/database";
+import {getDatabase,ref,get} from "firebase/database";
 import {useAuth} from "../authentication/AuthContext";
 import cart from "../../assets/images/cart.jpg";
 import CartItem from "./CartItem";

@@ -89,7 +89,11 @@ function Product(props) {
   // console.log(cartBtnClicked);
  //console.log(prdtQty);
 const AddToWishlist = async (productId) =>{
-  try{
+  if(user === null){
+    navigate('/login')
+  }
+  else{
+    try{
       const db = getDatabase();
       const wishlistRef = ref(db,`wishlist/${user.uid}/${productId}`)
       await set(wishlistRef,{
@@ -100,6 +104,8 @@ const AddToWishlist = async (productId) =>{
     } catch(error){
     alert(error.code + error.message)
   }
+  }
+  
  
 }
 
@@ -117,7 +123,8 @@ const addProduct = async (productId,operation) =>{
         count:prodData.count + multiplier * prdtQty[productId]
       })
     }
-    alert(`item ${operation === "sub" ? "added" : "removed"} successfully`);
+    alert(`item ${operation === "sub" ? "removed" : "added"} successfully`);
+    window.location.reload()
     toggleCartBtn(productId);
     } catch(error){
        alert(error.code + error.message);
@@ -130,6 +137,7 @@ const addProduct = async (productId,operation) =>{
     const prodRef = ref(db,`products/${productId}`);
     await remove(prodRef);
     alert("Item deleted successfully");
+    window.location.reload()
   }
 
 
@@ -173,18 +181,18 @@ const addProduct = async (productId,operation) =>{
                         </div>
                          ) : (
                       <div>
-                         {(prdtQty[id] >= 1 && location.pathname !== "/admin" ) ? (
+                         {(prdtQty[id] >= 1 && user?.admin === false ) ? (
                           <button onClick={() =>removeFromCart(id)} className={ProductCSS.addbtn}> Remove</button>
                          ) : ( 
                                 <>
                                 <button  onClick={() => toggleCartBtn(id)} className={ProductCSS.addbtn} >
-                                    {location.pathname !== "/admin" ? "Add to cart" : "Add/Remove"} 
+                                    {user?.admin ? "Add/Remove" : "Add to cart"} 
                                       </button>
                                 </>
                               
                          )}
-                      <button className={ProductCSS.addbtn} onClick={ location.pathname !=="/admin" ? (() => AddToWishlist(id)) : (()=> deleteProduct(id))} >
-                        {location.pathname !== "/admin" ? "Add to Wishlist" : "Delete"}
+                      <button className={ProductCSS.addbtn} onClick={ user?.admin ? (() => deleteProduct(id)) : (()=> AddToWishlist(id))} >
+                        {user?.admin ? "Delete" : "Add to Wishlist"}
                         </button>
                       </div>
                   )}

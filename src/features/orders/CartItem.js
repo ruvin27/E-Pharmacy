@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import CartItemCSS from "../../assets/css/cart.module.css";
 import { get, getDatabase, ref, remove,set } from "firebase/database";
 import { useAuth } from "../authentication/AuthContext";

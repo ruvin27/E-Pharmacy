@@ -44,13 +44,17 @@ function UserLogin() {
           console.log('User data:', userData);
           await login(userData);
           alert("login successful!!!")
-          navigate("/");
+          if (userData?.admin){
+            navigate('/admin')
+          }
+          else{
+            navigate("/");
+          }
         } else {
           alert("User not found.");
         }
 
       } catch (error) {
-        const errorCode = error.code;
         const errorMessage = error.message;
         alert( errorMessage);
       }

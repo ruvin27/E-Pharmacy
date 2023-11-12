@@ -1,5 +1,5 @@
 import Card from "react-bootstrap/Card";
-import { Container, Button, Form, Row, Col } from "react-bootstrap";
+import { Container, Form, Row, Col } from "react-bootstrap";
 import profileClasses from "../assets/css/profile.module.css";
 import HomepageNav from "./navbar";
 import { useAuth } from "../features/authentication/AuthContext";

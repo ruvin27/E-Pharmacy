@@ -61,11 +61,11 @@ return(
           </div>
 
           <div className="form-outline mb-4">
-            <input type="decimal"  name="price" onChange={handleFormChange} className="form-control" required/>
+          <input type="number" step="0.001"  name="price" onChange={handleFormChange} className="form-control" min={1} required/>
             <label className="form-label" htmlFor="form2Example2"> Product price </label>
           </div>
           <div className="form-outline mb-4">
-            <input type="number"  name="count" onChange={handleFormChange} className="form-control" required/>
+            <input type="number"  name="count" onChange={handleFormChange} className="form-control" min={1} required/>
             <label className="form-label" htmlFor="form2Example3"> Number of products to add</label>
           </div>
           <div className="form-outline mb-4">
