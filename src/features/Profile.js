@@ -154,7 +154,7 @@ function Profile() {
 									<Form.Control type="text" placeholder="Enter Postal Code" name="code" value={formData.address.code} onChange={handleInputChange} />
 								</Col>
 							</Form.Group>
-							<button className={profileClasses.updatebtn} >Update Profile</button>
+							<button className={profileClasses.updatebtn} id="update" >Update Profile</button>
 						</Form>
 						
 					</Card.Body>

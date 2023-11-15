@@ -85,7 +85,7 @@ function HomepageNav() {
 	return (
 		<Navbar expand="lg" className="">
 			<Container fluid>
-				{user?.admin ? (
+				{user && user.admin ? (
 					<Navbar.Brand as={Link} to="/admin" style={{ color: "white" }}>
 						UTA E-Pharmacy
 					</Navbar.Brand>
@@ -98,7 +98,7 @@ function HomepageNav() {
 <Navbar.Toggle style={toggleStyle} aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="navbarScroll">
 					<Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: "100px" }} navbarScroll>
-						{user?.admin ? (
+						{user && user.admin ? (
 							<Nav>
 								<Nav.Link as={Link} to="/addproduct" style={{ color: "white" }}>
 									Add New Product

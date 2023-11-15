@@ -43,7 +43,7 @@ function UserLogin() {
           userData.uid = userId;
           console.log('User data:', userData);
           await login(userData);
-          alert("login successful!!!")
+          // alert("login successful!!!")
           if (userData?.admin){
             navigate('/admin')
           }
